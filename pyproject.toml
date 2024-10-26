@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "ailfred"
+version = "0.1.0"
+description = "Personal Assistant to help you understanding your admin context"
+authors = ["Pierre-Benoît Querton <pb@querton.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+streamlit = "^1.39.0"
+chromadb = "^0.5.15"
+pypdf = "^5.0.1"
+langchain-community = "^0.3.3"
+langchain-ollama = "^0.2.0"
+langchain-chroma = "^0.1.4"
+protobuf = "^3.20.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.7.1"
+langchain-cli = "^0.0.31"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
