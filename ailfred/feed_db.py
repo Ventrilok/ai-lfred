@@ -12,7 +12,6 @@ DATA_PATH = "data"
 
 
 def main():
-
     # Check if the database should be cleared (using the --clear flag).
     parser = argparse.ArgumentParser()
     parser.add_argument("--reset", action="store_true", help="Reset the database.")
@@ -71,7 +70,6 @@ def add_to_chroma(chunks: list[Document]):
 
 
 def calculate_chunk_ids(chunks):
-
     # This will create IDs like "data/monopoly.pdf:6:2"
     # Page Source : Page Number : Chunk Index
 
