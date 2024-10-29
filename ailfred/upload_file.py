@@ -21,16 +21,19 @@ if uploaded_file is not None:
     # Define the file path to save
     file_path = os.path.join("data", uploaded_file.name)
 
-    # Write file to the directory
-    with open(file_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
+    with st.spinner("Chargement du document..."):  # Write file to the directory
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
 
-    chroma = ChromaDBHelper(
-        db_path=constants.CHROMA_PATH, data_path=constants.DATA_PATH
-    )
-    chroma.add_document(file_path)
+    with st.spinner(
+        f"Analyse du document [{file_path}]..."
+    ):  # Write file to the directory
+        chroma = ChromaDBHelper(
+            db_path=constants.CHROMA_PATH, data_path=constants.DATA_PATH
+        )
+        chroma.add_document(file_path)
 
-    st.success("File successfully ingested!")
+    st.success("Document ingéré avec succès !")
 
 
 # Divider

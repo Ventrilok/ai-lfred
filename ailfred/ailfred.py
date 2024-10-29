@@ -4,48 +4,24 @@ from langchain_ollama.llms import OllamaLLM
 from helper import ChromaDBHelper
 from rag_helper import get_embedding_function
 import streamlit as st
+import constants
 
-CHROMA_PATH = "chroma"
 
-# PROMPT_TEMPLATE = """
-# <s>[INST] Vous êtes un assistant pour les tâches de réponse aux questions. Utilisez les éléments de contexte suivants pour répondre à la question.
-# Utilisez trois phrases maximum et soyez concis dans votre réponse. La répondre doit toujours être en français [/INST]</s>
-# [INST] Question: {question}
-# contexte: {context}
-# Réponse: [/INST]
-# """
-
-PROMPT_TEMPLATE = """
-Vous êtes un assistant virtuel spécialisé dans les questions administratives. 
-Vous avez accès à une base de données de documents administratifs stockés dans ChromaDB. 
-Votre tâche est de répondre aux questions des utilisateurs de manière claire et précise en vous basant sur les informations contenues dans ces documents.
-
-**Contexte de la Question** : 
-L'utilisateur a posé la question suivante : "{question}"
-
-**Documents Pertinents** : 
-Voici les informations extraites des documents pertinents : 
-{context}
-
-**Réponse Attendue** : 
-Toujours Répondre en français à la manière d'un majordome.
-Répondre de manière concise en moins de 4 phrases.
-
-"""
-
-chroma = ChromaDBHelper(db_path=CHROMA_PATH, data_path="data")
+chroma = ChromaDBHelper(db_path=constants.CHROMA_PATH, data_path=constants.DATA_PATH)
 
 
 def query_rag(query_text: str):
     # Prepare the DB.
     embedding_function = get_embedding_function()
-    db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
+    db = Chroma(
+        persist_directory=constants.CHROMA_PATH, embedding_function=embedding_function
+    )
 
     # Search the DB.
     results = db.similarity_search_with_score(query_text, k=7)
 
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
-    prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
+    prompt_template = ChatPromptTemplate.from_template(constants.PROMPT_TEMPLATE)
     prompt = prompt_template.format(context=context_text, question=query_text)
     # print(prompt)
 
@@ -88,7 +64,7 @@ if prompt := st.chat_input("Bonjour Maître Bruce."):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    with st.spinner("Un instant je vous prie, je réfléchis..."):
+    with st.spinner("Un instant je vous prie, je consulte vos documents..."):
         response, sources = query_rag(prompt)
 
     # Display assistant response in chat message container
