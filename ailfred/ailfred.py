@@ -1,7 +1,7 @@
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama.llms import OllamaLLM
-from chroma_helper import ChromaDBHelper
+from helper import ChromaDBHelper
 from rag_helper import get_embedding_function
 import streamlit as st
 
@@ -50,26 +50,11 @@ def query_rag(query_text: str):
     return response_text, sources
 
 
-st.set_page_config(page_title="AI-lfred")
+st.set_page_config(page_title="Admin Buddy > Ask AI-lfred")
 
 
 def rebuild_database():
     chroma.reset_database()
-
-
-def clear_chat_history():
-    st.session_state.messages = [
-        {"role": "assistant", "content": "Bonjour Maître Bruce"}
-    ]
-
-
-with st.sidebar:
-    st.title("Ai-lfred :older_man:")
-    st.write("This assistant aims to support you in your administrative tasks.")
-
-    st.subheader("Tools")
-    st.sidebar.button("Clear Chat History", on_click=clear_chat_history)
-    st.button("Rebuild DB", on_click=rebuild_database)
 
 
 # Initialize chat history
@@ -81,6 +66,12 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
+st.session_state.messages = [
+    {
+        "role": "assistant",
+        "content": "Bonjour Maître Bruce, que puis-je faire pour vous ?",
+    }
+]
 
 # React to user input
 if prompt := st.chat_input("Bonjour Maître Bruce."):
