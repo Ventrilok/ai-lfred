@@ -1,6 +1,6 @@
 from langchain_ollama import OllamaEmbeddings
 
-selected_model = "mistral"
+selected_model = "mistral:latest"
 # selected_model = "gemma2:2b"
 
 

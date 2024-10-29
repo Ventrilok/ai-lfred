@@ -7,12 +7,24 @@ import streamlit as st
 
 CHROMA_PATH = "chroma"
 
+# PROMPT_TEMPLATE = """
+# <s>[INST] Vous êtes un assistant pour les tâches de réponse aux questions. Utilisez les éléments de contexte suivants pour répondre à la question.
+# Utilisez trois phrases maximum et soyez concis dans votre réponse. La répondre doit toujours être en français [/INST]</s>
+# [INST] Question: {question}
+# contexte: {context}
+# Réponse: [/INST]
+# """
+
 PROMPT_TEMPLATE = """
-<s>[INST] Vous êtes un assistant pour les tâches de réponse aux questions. Utilisez les éléments de contexte suivants pour répondre à la question. 
-Si vous ne connaissez pas la réponse, dites simplement que vous ne savez pas. Utilisez trois phrases maximum et soyez concis dans votre réponse. Toujours répondre en français [/INST]</s>
-[INST] Question: {question} 
-Context: {context} 
-Answer: [/INST]
+<s>[INST] 
+Vous êtes un assistant intelligent capable de lire et d'extraire des informations importantes de documents.
+Votre tâche est de lire le contexte suivant et de répondre aux questions en français, en trois phrases maximum.
+Contexte:
+{context}
+
+Question: {question}
+Réponse:
+[/INST]</s>
 """
 
 chroma = ChromaDBHelper(db_path=CHROMA_PATH, data_path="data")
