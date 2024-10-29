@@ -5,7 +5,10 @@ ailfred = st.Page(
     "ailfred.py", title="Ask AI-lfred", icon=":material/chat:", default=True
 )
 upload = st.Page(
-    "upload_file.py", title="Upload a New file", icon=":material/upload:", default=False
+    "upload_file.py",
+    title="Import New Document",
+    icon=":material/upload:",
+    default=False,
 )
 
 pg = st.navigation(
@@ -14,6 +17,5 @@ pg = st.navigation(
         "Tools": [upload],
     }
 )
-
 
 pg.run()
