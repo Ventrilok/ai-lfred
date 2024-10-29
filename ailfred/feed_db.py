@@ -6,9 +6,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from rag_helper import get_embedding_function
 from langchain_chroma import Chroma
-
-CHROMA_PATH = "chroma"
-DATA_PATH = "data"
+import constants
 
 
 def main():
@@ -27,7 +25,7 @@ def main():
 
 
 def load_documents():
-    document_loader = PyPDFDirectoryLoader(DATA_PATH)
+    document_loader = PyPDFDirectoryLoader(constants.DATA_PATH)
     return document_loader.load()
 
 
@@ -44,7 +42,8 @@ def split_documents(documents: list[Document]):
 def add_to_chroma(chunks: list[Document]):
     # Load the existing database.
     db = Chroma(
-        persist_directory=CHROMA_PATH, embedding_function=get_embedding_function()
+        persist_directory=constants.CHROMA_PATH,
+        embedding_function=get_embedding_function(),
     )
 
     # Calculate Page IDs.
@@ -98,8 +97,8 @@ def calculate_chunk_ids(chunks):
 
 
 def clear_database():
-    if os.path.exists(CHROMA_PATH):
-        shutil.rmtree(CHROMA_PATH)
+    if os.path.exists(constants.CHROMA_PATH):
+        shutil.rmtree(constants.CHROMA_PATH)
 
 
 if __name__ == "__main__":
