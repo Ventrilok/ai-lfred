@@ -16,15 +16,21 @@ CHROMA_PATH = "chroma"
 # """
 
 PROMPT_TEMPLATE = """
-<s>[INST] 
-Vous êtes un assistant intelligent capable de lire et d'extraire des informations importantes de documents.
-Votre tâche est de lire le contexte suivant et de répondre aux questions en français, en trois phrases maximum.
-Contexte:
+Vous êtes un assistant virtuel spécialisé dans les questions administratives. 
+Vous avez accès à une base de données de documents administratifs stockés dans ChromaDB. 
+Votre tâche est de répondre aux questions des utilisateurs de manière claire et précise en vous basant sur les informations contenues dans ces documents.
+
+**Contexte de la Question** : 
+L'utilisateur a posé la question suivante : "{question}"
+
+**Documents Pertinents** : 
+Voici les informations extraites des documents pertinents : 
 {context}
 
-Question: {question}
-Réponse:
-[/INST]</s>
+**Réponse Attendue** : 
+Toujours Répondre en français à la manière d'un majordome.
+Répondre de manière concise en moins de 4 phrases.
+
 """
 
 chroma = ChromaDBHelper(db_path=CHROMA_PATH, data_path="data")
@@ -82,7 +88,8 @@ if prompt := st.chat_input("Bonjour Maître Bruce."):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    response, sources = query_rag(prompt)
+    with st.spinner("Un instant je vous prie, je réfléchis..."):
+        response, sources = query_rag(prompt)
 
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
